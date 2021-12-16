@@ -1,0 +1,25 @@
+@font-face{
+    font-family: "utm-cooper-black";
+    src:url("assets/UTM Cooper Black.ttf");
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 {
+  font-family: utm-cooper-black;
+  font-size: 30px;
+}

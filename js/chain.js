@@ -1,0 +1,1 @@
+// new Chain(constraintLength, nodeSize)
