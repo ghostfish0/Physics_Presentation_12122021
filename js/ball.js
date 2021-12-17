@@ -1,5 +1,5 @@
 
-function Ball(x, y, r, c, options) {
+function Ball(x, y, r, c, options, added) {
 
     
     push();
@@ -12,7 +12,8 @@ function Ball(x, y, r, c, options) {
     // this.color = color(random(0,360), random(50, 60), random(90, 100));
     // this.color = themecolors[Math.floor(Math.random()*themecolors.length)];
     this.color = c;
-    Composite.add(myWorld, this.body);
+    if (!added)
+        Composite.add(myWorld, this.body);
 
     this.isekai = function() {
         Composite.remove(myWorld, this.body);

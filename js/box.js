@@ -1,4 +1,4 @@
-function Box(x, y, w, h, c, options) {
+function Box(x, y, w, h, c, options, added) {
 /*    let options = {
         friction: 0,
         restitution: 0.9
@@ -9,7 +9,8 @@ function Box(x, y, w, h, c, options) {
     this.h = h;
     // this.color = color(random(0,360), random(50, 60), random(90, 100));
     this.color = c;
-    Composite.add(myWorld, this.body);
+    if (!added)
+        Composite.add(myWorld, this.body);
 
     this.isekai = function() {
         Composite.remove(myWorld, this.body);

@@ -12,10 +12,11 @@ body {
   display: flex;
 
   /* This centers our sketch horizontally. */
-  justify-content: center;
+  justify-content: space-between;
 
   /* This centers our sketch vertically. */
   align-items: center;
+  background-color: rgb(248, 240, 227);
   flex-direction: column;
 }
 
@@ -23,3 +24,4 @@ h1 {
   font-family: utm-cooper-black;
   font-size: 30px;
 }
+

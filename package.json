@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "eslint": "^8.4.1"
+  },
+  "dependencies": {
+    "poly-decomp": "^0.3.0"
   }
 }

@@ -1,9 +1,12 @@
 function Boundary(x, y, w, h, ang) {
     let options = {
-        friction: 0.1,
+        friction: 0,
         restitution: 1,
         angle: ang,
-        isStatic: true
+        isStatic: true,
+        collisionFilter: {
+            category: 0x0001,
+        }
     }
 
     this.body = Bodies.rectangle(x, y, w, h, options);

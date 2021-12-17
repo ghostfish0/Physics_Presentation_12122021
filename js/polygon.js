@@ -2,6 +2,9 @@ function Polygon(x, y, sides, radius, c, added) {
 	let options = {
         friction: 0.1,
         restitution: 0.9,
+        collisionFilter: {
+            mask: 0x0001,
+        }
         // isStatic: (y < 200)    
     }
     this.body = Bodies.polygon(x, y, sides, radius, options);

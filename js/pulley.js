@@ -1,14 +1,14 @@
 // module aliases
-const   Engine = Matter.Engine,
-        Render = Matter.Render,
-        Runner = Matter.Runner,
-        Common = Matter.Common,
-        MouseConstraint = Matter.MouseConstraint,
-        Mouse = Matter.Mouse,
-        Composite = Matter.Composite,
-        Vertices = Matter.Vertices,
-        Svg = Matter.Svg,
-        Bodies = Matter.Bodies
+const Engine = Matter.Engine,
+    // Render = Matter.Render,
+    Runner = Matter.Runner,
+    Bodies = Matter.Bodies,
+    Body = Matter.Body,
+    Composites = Matter.Composites;
+    Composite = Matter.Composite,
+    Constraint = Matter.Constraint,
+    Mouse = Matter.Mouse;
+    MouseConstraint = Matter.MouseConstraint;
 
 // colors
 let themecolors = [];
@@ -17,9 +17,18 @@ let myEngine;
 let myWorld;
 let myMouseConstraint;
 let myMouse;
-let myConstraint;
+let myConstraintA;
+let myConstraintB;
 
 let myPolygon;
+let myPolygons = [];
+let balls = [];
+let ballA;
+let ballB;
+let ground;
+let bridge;
+let bridgeplates = [];
+let obstacles = [];
 
 function mouseDragged() {
     // Polygons.push(new Box(mouseX, mouseY, random(10, 40), random(10, 40), themecolors[Math.floor(Math.random()*themecolors.length)]));
@@ -48,9 +57,78 @@ function setup() {
 
     // define categories
     let defaultCategory = 0x0001,
-        weightsCategory = 0x0002;
+        weightsCategory = 0x0002,
+        bridgeplatesCategory = 0x0004,
+        hangedCategory = 0x0008;
+
+    // bodies options
+    let boxoptions = {
+        friction: 0,
+        restitution: 0.9
+    }
+    let balloptions = {
+        friction: 1,
+        restitution: 0.9,
+        density: 0.005,
+        collisionFilter: {
+            category: weightsCategory,
+            mask: defaultCategory,
+        }
+        // isStatic: true
+    }
 
     // add bodies
+    let indent = 140;
+    let bridgeHeight = 10;
+    let obstaclesRadius = 50;
+
+    // ground = new Boundary(width/2, height-25, width*2, 25, 0);
+    obstacles.push (new Ball(indent + 40, bridgeHeight + 100, obstaclesRadius, 0, {isStatic: true}, 0));
+    obstacles.push (new Ball(width - indent - 40, bridgeHeight + 100, obstaclesRadius, 0, {isStatic: true}, 0));
+
+
+    ballA = new Box(indent, bridgeHeight, 100, 100, themecolors[1], balloptions, 0);
+    ballB = new Box(width - indent + 150, bridgeHeight, 100, 100, themecolors[2], balloptions, 0);
+    let group = Body.nextGroup(true);
+
+    bridge = Composites.stack((width - indent)/2, 0.4*bridgeHeight, 70, 1, 0, 0, function(x, y) {
+
+        bridgeplates.push(new Plate(x - 20, y, 20, 10, color(0), { 
+            collisionFilter: { 
+                group: group,
+                category: bridgeplatesCategory,
+                mask: defaultCategory
+            },
+            chamfer: 5,
+            density: 0.005,
+            frictionAir: 0.05,
+        }));
+
+        return bridgeplates[bridgeplates.length - 1].body;
+    });
+/*    bridge = Composites.stack((width - indent)/2, 0.4*bridgeHeight, 15, 1, 0, 0, function(x, y) {
+
+        bridgeplates.push(new Plate(x - 20, y, 53, 20, color(0), { 
+            collisionFilter: { group: group },
+            chamfer: 5,
+            density: 0.005,
+            frictionAir: 0.05,
+        }));
+
+        return bridgeplates[bridgeplates.length - 1].body;
+    });
+*/    
+    Composites.chain(bridge, 0.3, 0, -0.3, 0, { 
+        stiffness: 1,
+        length: 1
+    });
+
+/*    let Polygons = Composites.stack(width/2 - indent, -200, 6, 3, 0, 0, function(x, y) {
+        myPolygons.push(new Polygon(x, y, int(random(3, 8)), random(15, 45), themecolors[Math.floor(Math.random()*(themecolors.length - 1)) + 1], 1));
+
+        return myPolygons[myPolygons.length - 1].body;
+    });
+*/
 
     myPolygon = new Polygon(width/2, bridgeHeight, 7, 50, themecolors[3], 0);
 
